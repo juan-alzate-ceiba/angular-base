@@ -1,0 +1,42 @@
+<div class="container">
+
+    <h1 class="container__titulo">Crear Libro</h1>
+    <form [formGroup]="libroForm" (ngSubmit)="crear()">
+
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label>ISBN</label>
+          <input validar type="text" id="isbn" name="isbn" placeholder="isbn" class="form-control"
+            formControlName="isbn" [ngClass]="{ 'is-invalid': submitted && f.isbn.errors }">
+          <div *ngIf="submitted && f.isbn.errors" class="invalid-feedback">
+            <div *ngIf="f.isbn.errors.required">ISBN es obligatorio</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label>TITULO</label>
+          <input validar type="text" id="tituloLibro" name="titulo" placeholder="titulo" class="form-control"
+            formControlName="titulo" [ngClass]="{ 'is-invalid': submitted && f.titulo.errors }">
+          <div *ngIf="submitted && f.titulo.errors" class="invalid-feedback">
+            <div *ngIf="f.titulo.errors.required">Título es obligatorio</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label>AÑO</label>
+          <input validar type="number" id="anio" name="anio" placeholder="anio" class="form-control"
+            formControlName="anio" [ngClass]="{ 'is-invalid': submitted && f.anio.errors }">
+          <div *ngIf="submitted && f.anio.errors" class="invalid-feedback">
+            <div *ngIf="f.anio.errors.required">Año es obligatorio</div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Crear</button>
+    </form>
+
+</div>

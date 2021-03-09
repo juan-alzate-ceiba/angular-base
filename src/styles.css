@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.form-container {
+  padding-top: 50px;
+}
+.form-container h1 {
+  padding-bottom: 3rem;
+}
+form button {
+  margin-left: 42%;
+}
+form label {
+  font-weight: bold;
+}

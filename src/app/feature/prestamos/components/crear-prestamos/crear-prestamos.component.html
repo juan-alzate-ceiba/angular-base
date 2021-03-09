@@ -1,0 +1,29 @@
+<div class="form-container">
+  <h1 class="form-container__titulo">Nuevo Prestamos</h1>
+  <form [formGroup]="prestamoForm" (ngSubmit)="prestar()">
+
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label>ISBN</label>
+        <input validar type="text" id="isbn" name="isbn" placeholder="isbn" class="form-control"
+          formControlName="isbn" [ngClass]="{ 'is-invalid': submitted && f.isbn.errors }">
+        <div *ngIf="submitted && f.isbn.errors" class="invalid-feedback">
+          <div *ngIf="f.isbn.errors.required">ISBN es obligatorio</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label>NOMBRE</label>
+        <input validar type="text" id="nombrePrestador" name="nombre" placeholder="nombre" class="form-control"
+          formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }">
+        <div *ngIf="submitted && f.nombre.errors" class="invalid-feedback">
+          <div *ngIf="f.nombre.errors.required">ISBN es obligatorio</div>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Prestar</button>
+  </form>
+</div>
