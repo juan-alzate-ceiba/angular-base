@@ -2,6 +2,7 @@ import { Prestamo } from './../../../../shared/models/prestamo';
 import { PrestamosService } from './../../shared/service/prestamos.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { ManejadorError } from '@core/interceptor/manejador-error';
 
 @Component({
   selector: 'app-crear-prestamos',
@@ -14,8 +15,11 @@ export class CrearPrestamosComponent implements OnInit {
   submitted = false;
 
   prestamo: Prestamo;
+  manejadorError: ManejadorError;
 
-  constructor(private prestamosService: PrestamosService) { }
+  constructor(
+    private prestamosService: PrestamosService
+    ) { }
 
   ngOnInit(): void {
     this.construirFormulaioPrestamo();
@@ -44,12 +48,16 @@ export class CrearPrestamosComponent implements OnInit {
           this.prestamoForm.reset();
         },
         err => {
-          console.log(err.error.mensaje)
+          this.manejadorError.handleError(err.error.mensaje);
         });
       } else {
         console.log(`El libro con ISBN ${prestamo.isbn} se encuentra en prestamo actualmente`)
+
       }
 
+    },
+    err => {
+      this.manejadorError.handleError(err.error.mensaje);
     });
 
 

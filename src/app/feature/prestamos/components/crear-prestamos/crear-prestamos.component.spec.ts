@@ -7,6 +7,7 @@ import { HttpClientModule, HttpClient, HttpHandler } from '@angular/common/http'
 
 import { CrearPrestamosComponent } from './crear-prestamos.component';
 import { CommonModule } from '@angular/common';
+import { ManejadorError } from '@core/interceptor/manejador-error';
 // import { HttpClientModule } from '@angular/common/http';
 
 describe('CrearPrestamosComponent', () => {
@@ -31,7 +32,7 @@ describe('CrearPrestamosComponent', () => {
         FormsModule,
         HttpClientModule
       ],
-      providers: [PrestamosService, HttpService]
+      providers: [PrestamosService, ManejadorError, HttpService]
     })
     .compileComponents();
   });
