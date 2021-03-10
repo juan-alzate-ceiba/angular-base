@@ -1,6 +1,6 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -12,11 +12,12 @@ import { CoreModule } from '@core/core.module';
 import { CookieService } from 'ngx-cookie-service';
 
 
-	import { HttpClient } from '@angular/common/http';
-	import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-	import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-	import { TranslationComponent } from './feature/translation/translation.component';
-	import { InternacionalizacionComponent } from './feature/internacionalizacion/internacionalizacion.component';
+import { HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslationComponent } from './feature/translation/translation.component';
+import { InternacionalizacionComponent } from './feature/internacionalizacion/internacionalizacion.component';
+import { ManejadorError } from '@core/interceptor/manejador-error';
 
 
 	export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -47,7 +48,7 @@ import { CookieService } from 'ngx-cookie-service';
 	      }
 	    })
   ],
-  providers: [CookieService],
+  providers: [CookieService, {provide: ErrorHandler, useClass: ManejadorError}],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

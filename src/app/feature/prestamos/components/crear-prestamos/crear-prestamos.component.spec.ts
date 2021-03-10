@@ -3,7 +3,7 @@ import { PrestamosService } from './../../shared/service/prestamos.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpHandler } from '@angular/common/http';
 
 import { CrearPrestamosComponent } from './crear-prestamos.component';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,11 @@ import { CommonModule } from '@angular/common';
 describe('CrearPrestamosComponent', () => {
   let component: CrearPrestamosComponent;
   let fixture: ComponentFixture<CrearPrestamosComponent>;
+
+  let service: PrestamosService;
+  let httpService: HttpService;
+  let httpClient: HttpClient;
+  let http: HttpHandler;
 
   const ISBN = 'A874478A';
   const NOMBRE_PRESTADO = 'Felipe Alzate'
@@ -33,6 +38,11 @@ describe('CrearPrestamosComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CrearPrestamosComponent);
+    http = TestBed.inject(HttpHandler);
+    httpClient = new HttpClient(http);
+    httpService = new HttpService(httpClient);
+    service = new PrestamosService(httpService);
+
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -56,8 +66,9 @@ describe('CrearPrestamosComponent', () => {
   it('si libro no está prestado, crear nuevo prestamo', () => {
     component.prestamoForm.controls.isbn.setValue(ISBN);
     component.prestamoForm.controls.nombre.setValue(NOMBRE_PRESTADO);
-    // component.prestar();
 
-    expect(component.prestar()).toBeUndefined();
+    spyOn(service, 'obtenerPrestamo').and.
+
+    // expect(component.prestar()).toHaveBeenCalledTimes(1);
   });
 });
