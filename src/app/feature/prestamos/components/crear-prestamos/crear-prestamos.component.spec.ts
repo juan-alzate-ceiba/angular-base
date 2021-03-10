@@ -67,8 +67,11 @@ describe('CrearPrestamosComponent', () => {
     component.prestamoForm.controls.isbn.setValue(ISBN);
     component.prestamoForm.controls.nombre.setValue(NOMBRE_PRESTADO);
 
-    spyOn(service, 'obtenerPrestamo').and.
+    let obtener = spyOn(service, 'obtenerPrestamo').and.returnValue(null);
 
+    if(obtener) {
+      spyOn(service, 'prestar').and.returnValue(null);
+    }
     // expect(component.prestar()).toHaveBeenCalledTimes(1);
   });
 });
