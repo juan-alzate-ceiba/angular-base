@@ -5,73 +5,64 @@ pipeline {
   }
 
   //Opciones específicas de Pipeline dentro del Pipeline
-  // options {
-  //   	buildDiscarder(logRotator(numToKeepStr: '3'))
- 	//     disableConcurrentBuilds()
-  // }
-
-  //Una sección que define las herramientas “preinstaladas” en Jenkins
-  // tools {
-  //   jdk 'JDK8_Centos' //Preinstalada en la Configuración del Master
-  //   gradle 'Gradle4.5_Centos' //Preinstalada en la Configuración del Master
-  // }
+  options {
+    	buildDiscarder(logRotator(numToKeepStr: '3'))
+ 	disableConcurrentBuilds()
+  }
 
   //Aquí comienzan los “items” del Pipeline
   stages{
-    stage ('checkout'){
+    stage('Checkout') {
       steps{
-        checkout scm
+        echo "------------>Checkout<------------"
+        checkout([
+        $class: 'GitSCM',
+        branches: [[name: '*/master']],
+        doGenerateSubmoduleConfigurations: false,
+        extensions: [],
+        gitTool: 'Default',
+        submoduleCfg: [],
+        userRemoteConfigs: [[
+        credentialsId: 'GitHub_juan-alzate-ceiba',
+        url:'https://github.com/juan-alzate-ceiba/angular-base.git'
+        ]]
+      ])
+
+    }
+  }
+
+    stage('install & build') {
+      steps{
+        echo "------------>Unit Tests<------------"
+        sh 'npm i'
+        sh 'npm run build'
       }
     }
-    stage ('install modules'){
+
+    stage('test') {
       steps{
-        sh '''
-          npm install --verbose -d
-          npm install --save classlist.js
-        '''
+        echo "------------>Unit Tests<------------"
+        sh 'ng test --watch=false --browsers ChromeHeadless --code-coverage'
       }
     }
-    stage ('test'){
-      steps{
-        sh '''
-          $(npm bin)/ng test --single-run --browsers Chrome_no_sandbox
-        '''
-      }
 
     stage('Static Code Analysis') {
       steps{
         echo '------------>Análisis de código estático<------------'
         withSonarQubeEnv('Sonar') {
-sh "${tool name: 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
+sh "${tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -Dsonar.projectKey=co.com.ceiba.ceiba.adn:ADNjuanalzate -Dsonar.projectName=CeibaADN-angularbase(juan.alzate) -Dproject.settings=./sonar-project.properties"
         }
       }
     }
 
-    stage('Build') {
-      steps {
-        echo "------------>Build<------------"
-        sh '$(npm bin)/ng build --prod --build-optimizer'
-      }
-    }
   }
 
   post {
-    always {
-      junit "test-results.xml"
-    }
-    // success {
-    //   echo 'This will run only if successful'
-    // }
-    // failure {
-    //   echo 'This will run only if failed'
-    // }
-    // unstable {
-    //   echo 'This will run only if the run was marked as unstable'
-    // }
-    // changed {
-    //   echo 'This will run only if the state of the Pipeline has changed'
-    //   echo 'For example, if the Pipeline was previously failing but is now successful'
-    // }
+
+    failure {
+      echo 'This will run only if failed'
+mail (to: 'juan.alzate@ceiba.com.co',subject: "Failed Pipeline:${currentBuild.fullDisplayName}",body: "Something is wrong with ${env.BUILD_URL}")
+
     }
   }
 }
