@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
   declarations: [ToolbarComponent, NavbarComponent],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
   ],
   exports: [ToolbarComponent, NavbarComponent],
   providers: [

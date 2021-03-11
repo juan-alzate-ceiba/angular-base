@@ -19,11 +19,11 @@
         <input validar type="text" id="nombrePrestador" name="nombre" placeholder="nombre" class="form-control"
           formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }">
         <div *ngIf="submitted && f.nombre.errors" class="invalid-feedback">
-          <div *ngIf="f.nombre.errors.required">ISBN es obligatorio</div>
+          <div *ngIf="f.nombre.errors.required">Nombre es obligatorio</div>
         </div>
       </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Prestar</button>
+    <button [disabled]="!prestamoForm.valid" type="submit" class="btn btn-primary">Prestar</button>
   </form>
 </div>

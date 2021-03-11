@@ -11,7 +11,11 @@ describe('LibrosService', () => {
   let httpMock: HttpTestingController;
   let service: LibrosService;
 
-  const apiEndpointCrearLibro = `${environment.endpoint}/libros`
+  const ISBN = 'A874478A';
+  const NOMBRE = 'La guerra de los cielos';
+  const ANIO = 1998;
+  const apiEndpointCrearLibro = `${environment.endpoint}/libros`;
+  const apiEndpointObtenerLibro = `${environment.endpoint}/libros`
 
   beforeEach(() => {
     const injector = TestBed.configureTestingModule({
@@ -27,12 +31,22 @@ describe('LibrosService', () => {
   });
 
   it('deberia crear un libro', () => {
-    const dummyLibro = new Libro('A65478Q', 'La guerra de los cielos', 1998);
+    const dummyLibro = new Libro(ISBN, NOMBRE, ANIO);
     service.crear(dummyLibro).subscribe((respuesta) => {
       expect(respuesta).toEqual(true);
     });
     const req = httpMock.expectOne(apiEndpointCrearLibro);
     expect(req.request.method).toBe('POST');
     req.event(new HttpResponse<boolean>({body: true}));
+  });
+
+  it('comprobar si un libro está creado', () => {
+    const dummyLibro = new Libro(ISBN, NOMBRE, ANIO);
+    service.obtenerLibro(ISBN).subscribe((respuesta) => {
+      expect(respuesta).toEqual(dummyLibro);
+    });
+    const req = httpMock.expectOne(`${apiEndpointObtenerLibro}/${ISBN}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(dummyLibro);
   });
 });

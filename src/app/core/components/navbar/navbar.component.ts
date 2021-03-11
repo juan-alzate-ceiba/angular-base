@@ -14,7 +14,6 @@ export class NavbarComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    // console.table(this.items);
   }
 
 }

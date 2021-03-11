@@ -8,6 +8,7 @@ import { HttpClientModule, HttpClient, HttpHandler } from '@angular/common/http'
 import { CrearPrestamosComponent } from './crear-prestamos.component';
 import { CommonModule } from '@angular/common';
 import { ManejadorError } from '@core/interceptor/manejador-error';
+import { ToastrService } from 'ngx-toastr';
 // import { HttpClientModule } from '@angular/common/http';
 
 describe('CrearPrestamosComponent', () => {
@@ -32,7 +33,7 @@ describe('CrearPrestamosComponent', () => {
         FormsModule,
         HttpClientModule
       ],
-      providers: [PrestamosService, ManejadorError, HttpService]
+      providers: [PrestamosService, ManejadorError, HttpService, ToastrService]
     })
     .compileComponents();
   });
@@ -73,6 +74,7 @@ describe('CrearPrestamosComponent', () => {
     if(obtener) {
       spyOn(service, 'prestar').and.returnValue(null);
     }
+
     // expect(component.prestar()).toHaveBeenCalledTimes(1);
   });
 });

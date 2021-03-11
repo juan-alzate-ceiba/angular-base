@@ -14,10 +14,18 @@ export class LibrosService {
 
   public crear(libro: Libro): Observable<any> {
 
-    return this.http.doPost<Libro, Boolean>(`${environment.endpoint}/libros`, libro,
+    return this.http.doPost<Libro, boolean>(`${environment.endpoint}/libros`, libro,
       this.http.optsName('crear libro'))
       .pipe(
         map(data => data)
       );
+  }
+
+  public obtenerLibro(isbn: string): Observable<Libro> {
+    return this.http.doGet<Libro>(`${environment.endpoint}/libros/${isbn}`,
+      this.http.optsName('Obtener libro'))
+    .pipe(
+      map(data => data)
+    )
   }
 }

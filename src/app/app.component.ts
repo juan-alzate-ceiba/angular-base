@@ -19,11 +19,7 @@ export class AppComponent {
    constructor(translate: TranslateService) {
      translate.stream('prestamos')
      .subscribe((res: string) => {
-      // console.log(
-      //   "%cStop!",
-      //   "color:red;font-family:system-ui;font-size:4rem;-webkit-text-stroke: 1px black;font-weight:bold"
-      // );
-      //  console.log(res)
+
         this.navbarItems[1].nombre = res;    });
     }
 }

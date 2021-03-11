@@ -1,15 +1,15 @@
+import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { HTTP_ERRORES_CODIGO } from './http-codigo-error';
+import { HTTP_ERRORES_CODIGO, HTTP_SUCCESS_COD } from './http-codigo-error';
 
 @Injectable()
 export class ManejadorError implements ErrorHandler {
-  constructor() {}
+  constructor(private mensajeToastService: ToastrService) {}
 
   handleError(error: string | Error): void {
-    const mensajeError = this.mensajePorDefecto(error);
-    this.imprimirErrorConsola(mensajeError);
+    let mensajeMostrar = this.mensajePorDefecto(error);
+    this.mostrarMensaje(mensajeMostrar);
   }
 
   private mensajePorDefecto(error) {
@@ -17,28 +17,39 @@ export class ManejadorError implements ErrorHandler {
       if (!navigator.onLine) {
         return HTTP_ERRORES_CODIGO.NO_HAY_INTERNET;
       }
-      if (error.hasOwnProperty('status') && !error.error.hasOwnProperty('mensaje')) {
-        return this.obtenerErrorHttpCode(error.status);
+      if (error.hasOwnProperty('status') && error.error.hasOwnProperty('mensaje')) {
+        let mensajeError = this.obtenerErrorHttpCode(error.status);
+        let mensaje = '';
+        switch (mensajeError) {
+          case HTTP_ERRORES_CODIGO['400']:
+            mensaje = error.error.mensaje;
+            break;
+          case HTTP_SUCCESS_COD['200']:
+            mensaje = mensajeError;
+            break;
+        }
+        return mensaje;
       }
     }
     return error;
   }
 
-  private imprimirErrorConsola(mensaje): void {
-    const respuesta = {
-      fecha: new Date().toLocaleString(),
-      path: window.location.href,
-      mensaje,
-    };
-    if (!environment.production) {
-      window.console.error('Error inesperado:\n', respuesta);
-    }
+  private mostrarMensaje(mensaje): void {
+    this.mensajeToastService.info(mensaje);
+    // const respuesta = {
+    //   fecha: new Date().toLocaleString(),
+    //   path: window.location.href,
+    //   mensaje,
+    // };
+    // if (!environment.production) {
+    //   window.console.error('Error inesperado:\n', respuesta);
+    // }
   }
 
   public obtenerErrorHttpCode(httpCode: number): string {
     if (HTTP_ERRORES_CODIGO.hasOwnProperty(httpCode)) {
-      return HTTP_ERRORES_CODIGO.PETICION_FALLIDA;
+      return HTTP_ERRORES_CODIGO[httpCode.toString()];
     }
-    return HTTP_ERRORES_CODIGO[httpCode];
+    return HTTP_SUCCESS_COD[httpCode.toString()];
   }
 }

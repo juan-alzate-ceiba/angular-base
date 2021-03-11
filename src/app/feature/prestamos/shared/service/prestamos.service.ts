@@ -13,11 +13,11 @@ export class PrestamosService {
   constructor(protected http: HttpService) { }
 
   public prestar(isbn: string, nombre: string): Observable<any> {
-    return this.http.doPost<Prestamo, Boolean>(`${environment.endpoint}/prestamos/${isbn}/${nombre}`, null,
+    return this.http.doPost<Prestamo, boolean>(`${environment.endpoint}/prestamos/${isbn}/${nombre}`, null,
     this.http.optsName('prestamos'))
     .pipe (
       map( data => data)
-    )
+    );
   }
 
   public obtenerPrestamo(isbn: string): Observable<Prestamo> {

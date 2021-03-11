@@ -10,3 +10,7 @@ export const HTTP_ERRORES_CODIGO = {
     503: 'El servidor no esta disponible.',
     504: 'El tiempo de espera para la petición se ha excedido',
 };
+
+export const HTTP_SUCCESS_COD ={
+  200: 'Creado con éxito'
+}

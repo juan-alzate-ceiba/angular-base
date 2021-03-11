@@ -2,7 +2,7 @@ import { Prestamo } from './../../../../shared/models/prestamo';
 import { PrestamosService } from './../../shared/service/prestamos.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { ManejadorError } from '@core/interceptor/manejador-error';
+
 
 @Component({
   selector: 'app-crear-prestamos',
@@ -15,11 +15,12 @@ export class CrearPrestamosComponent implements OnInit {
   submitted = false;
 
   prestamo: Prestamo;
-  manejadorError: ManejadorError;
+  status: string;
 
   constructor(
-    private prestamosService: PrestamosService
-    ) { }
+    private prestamosService: PrestamosService,
+    ) {
+    }
 
   ngOnInit(): void {
     this.construirFormulaioPrestamo();
@@ -33,43 +34,24 @@ export class CrearPrestamosComponent implements OnInit {
       return;
     }
 
-    const prestamo = this.prestamoForm.value
-    // const prestamoObj = await this.obternerPrestamoPorISBN(prestamo.isbn);
+    const prestamo = this.prestamoForm.value;
+
     this.prestamosService.obtenerPrestamo(prestamo.isbn)
     .subscribe (data => {
-      console.log(data);
       this.prestamo = data;
 
       if (!this.prestamo) {
         this.prestamosService.prestar(prestamo.isbn, prestamo.nombre)
         .subscribe (prest => {
-          console.log('El préstamo se ha realizado con éxito.');
           this.prestamo = prest;
           this.prestamoForm.reset();
-        },
-        err => {
-          this.manejadorError.handleError(err.error.mensaje);
+          this.submitted = false;
         });
       } else {
-        console.log(`El libro con ISBN ${prestamo.isbn} se encuentra en prestamo actualmente`)
-
+        // this.toastr.error(`El libro con ISBN ${prestamo.isbn} se encuentra en prestamo actualmente`);
       }
-
-    },
-    err => {
-      this.manejadorError.handleError(err.error.mensaje);
     });
-
-
   }
-
-  // private obternerPrestamoPorISBN(isbn: string) {
-  //   return this.prestamosService.obtenerPrestamo(isbn)
-  //   .subscribe (data => {
-  //     console.log(data);
-  //     this.prestamo = data;
-  //   });
-  // }
 
   private construirFormulaioPrestamo() {
     this.prestamoForm = new FormGroup({
