@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { LibrosService } from './../../shared/services/libros.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -18,7 +19,8 @@ export class LibrosComponent implements OnInit {
 
   constructor(
     private librosService: LibrosService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private mensajeToastService: ToastrService
     ) { }
 
   ngOnInit(): void {
@@ -34,17 +36,30 @@ export class LibrosComponent implements OnInit {
     }
 
     const libro = this.libroForm.value;
-    let fecha = new Date();
-    if (libro.anio > fecha.getFullYear()) {
+
+    let fechaActual = new Date();
+    let fechaMinima = fechaActual.getFullYear() - (fechaActual.getFullYear() - 1);
+    if (libro.anio > fechaActual.getFullYear() || libro.anio < fechaMinima) {
       this.submitted = false;
+      this.mensajeToastService.warning('Ingrese un año entre 1 y el año actual.');
       return;
     }
 
-    this.librosService.crear(libro)
-    .subscribe( data => {
-      this.submitted = false;
-      this.libro = data;
-      this.libroForm.reset();
+    this.librosService.obtenerLibro(libro.isbn)
+    .subscribe( libroPrestado => {
+      this.libro = libroPrestado;
+
+      if (!libroPrestado) {
+        return this.librosService.crear(libro)
+          .subscribe( data => {
+            this.submitted = false;
+            this.libro = data;
+            this.libroForm.reset();
+            this.mensajeToastService.success(`El libro código ISBN ${libro.isbn} ha sido creado correctamente`);
+          });
+      } else {
+        this.mensajeToastService.warning(`Ya hay un libro registrado con el código ISBN ${libro.isbn}`);
+      }
     });
   }
 

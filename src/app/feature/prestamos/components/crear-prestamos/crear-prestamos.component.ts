@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Prestamo } from './../../../../shared/models/prestamo';
 import { PrestamosService } from './../../shared/service/prestamos.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -19,6 +20,7 @@ export class CrearPrestamosComponent implements OnInit {
 
   constructor(
     private prestamosService: PrestamosService,
+    private mensajeToastService: ToastrService
     ) {
     }
 
@@ -36,19 +38,20 @@ export class CrearPrestamosComponent implements OnInit {
 
     const prestamo = this.prestamoForm.value;
 
-    this.prestamosService.obtenerPrestamo(prestamo.isbn)
+    return this.prestamosService.obtenerPrestamo(prestamo.isbn)
     .subscribe (data => {
       this.prestamo = data;
 
       if (!this.prestamo) {
-        this.prestamosService.prestar(prestamo.isbn, prestamo.nombre)
+        return this.prestamosService.prestar(prestamo.isbn, prestamo.nombre.toString())
         .subscribe (prest => {
           this.prestamo = prest;
           this.prestamoForm.reset();
           this.submitted = false;
+          this.mensajeToastService.warning(`El libro con ISBN ${prestamo.isbn} ha sido prestado a ${prestamo.nombre}`);
         });
       } else {
-        // this.toastr.error(`El libro con ISBN ${prestamo.isbn} se encuentra en prestamo actualmente`);
+        this.mensajeToastService.warning(`El libro con ISBN ${prestamo.isbn} se encuentra en prestamo actualmente`);
       }
     });
   }

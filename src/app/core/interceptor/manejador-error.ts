@@ -35,7 +35,7 @@ export class ManejadorError implements ErrorHandler {
   }
 
   private mostrarMensaje(mensaje): void {
-    this.mensajeToastService.info(mensaje);
+    this.mensajeToastService.error(mensaje);
 
   }
 

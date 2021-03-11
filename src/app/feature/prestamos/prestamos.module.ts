@@ -1,3 +1,4 @@
+import { PrestamosService } from './shared/service/prestamos.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -16,6 +17,6 @@ import { CrearPrestamosComponent } from './components/crear-prestamos/crear-pres
     PrestamosRoutingModule,
     SharedModule
   ],
-  providers: []
+  providers: [PrestamosService]
 })
 export class PrestamosModule { }

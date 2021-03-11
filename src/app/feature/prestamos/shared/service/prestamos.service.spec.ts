@@ -13,7 +13,7 @@ describe('PrestamosService', () => {
   let service: PrestamosService;
 
   const ISBN = 'A874478A';
-  const NOMBRE_PRESTADO = 'Felipe Alzate'
+  const NOMBRE_PRESTADOR = 'Felipe Alzate'
   const apiEndpointPrestar = `${environment.endpoint}/prestamos`
 
   beforeEach(() => {
@@ -31,10 +31,10 @@ describe('PrestamosService', () => {
   });
 
   it('deberia crear un prestamo', () => {
-    service.prestar(ISBN, NOMBRE_PRESTADO).subscribe((respuesta) => {
+    service.prestar(ISBN, NOMBRE_PRESTADOR).subscribe((respuesta) => {
       expect(respuesta).toEqual(true);
     });
-    const req = httpMock.expectOne(`${apiEndpointPrestar}/${ISBN}/${NOMBRE_PRESTADO}`);
+    const req = httpMock.expectOne(`${apiEndpointPrestar}/${ISBN}/${NOMBRE_PRESTADOR}`);
     expect(req.request.method).toBe('POST');
     req.event(new HttpResponse<boolean>({body: true}));
   });

@@ -39,13 +39,13 @@ export function httpLoaderFactory(httpClient: HttpClient) {
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     CoreModule
-	    ,TranslateModule.forRoot({
-	      loader: {
-	        provide: TranslateLoader ,
-	        useFactory: httpLoaderFactory,
-	        deps: [HttpClient]
-	      }
-	    })
+    ,TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader ,
+        useFactory: httpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [CookieService],
     bootstrap: [AppComponent],
