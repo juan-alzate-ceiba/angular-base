@@ -36,14 +36,7 @@ export class ManejadorError implements ErrorHandler {
 
   private mostrarMensaje(mensaje): void {
     this.mensajeToastService.info(mensaje);
-    // const respuesta = {
-    //   fecha: new Date().toLocaleString(),
-    //   path: window.location.href,
-    //   mensaje,
-    // };
-    // if (!environment.production) {
-    //   window.console.error('Error inesperado:\n', respuesta);
-    // }
+
   }
 
   public obtenerErrorHttpCode(httpCode: number): string {

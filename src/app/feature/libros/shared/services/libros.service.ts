@@ -26,6 +26,6 @@ export class LibrosService {
       this.http.optsName('Obtener libro'))
     .pipe(
       map(data => data)
-    )
+    );
   }
 }

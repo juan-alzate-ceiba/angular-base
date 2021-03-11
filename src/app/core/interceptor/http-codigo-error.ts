@@ -13,4 +13,4 @@ export const HTTP_ERRORES_CODIGO = {
 
 export const HTTP_SUCCESS_COD ={
   200: 'Creado con éxito'
-}
+};

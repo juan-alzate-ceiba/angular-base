@@ -12,16 +12,16 @@ import { CoreModule } from '@core/core.module';
 import { CookieService } from 'ngx-cookie-service';
 
 
-	import { HttpClient } from '@angular/common/http';
-	import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-	import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-	import { TranslationComponent } from './feature/translation/translation.component';
-	import { InternacionalizacionComponent } from './feature/internacionalizacion/internacionalizacion.component';
+import { HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslationComponent } from './feature/translation/translation.component';
+import { InternacionalizacionComponent } from './feature/internacionalizacion/internacionalizacion.component';
 
 
-	export function HttpLoaderFactory(httpClient: HttpClient) {
-	  return new TranslateHttpLoader(httpClient);
-	}
+export function httpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
 
 
 @NgModule({
@@ -42,7 +42,7 @@ import { CookieService } from 'ngx-cookie-service';
 	    ,TranslateModule.forRoot({
 	      loader: {
 	        provide: TranslateLoader ,
-	        useFactory: HttpLoaderFactory,
+	        useFactory: httpLoaderFactory,
 	        deps: [HttpClient]
 	      }
 	    })
