@@ -13,7 +13,6 @@ export class AppComponent {
     { url: '/home', nombre: 'Home' },
     { url: '/prestamos', nombre: 'Prestamos' },
     { url: '/libros', nombre: 'Libros' }
-    // ,{ url: '/internacionalizacion', nombre: 'Internacionalizacion' }
   ];
 
    constructor(translate: TranslateService) {

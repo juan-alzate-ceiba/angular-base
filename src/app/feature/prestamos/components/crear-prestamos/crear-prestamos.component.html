@@ -5,7 +5,7 @@
     <div class="form-row">
       <div class="form-group col-6">
         <label>ISBN</label>
-        <input validar type="text" id="isbn" name="isbn" placeholder="isbn" class="form-control"
+        <input validar type="text" id="isbnPrestamo" name="isbn" placeholder="isbn" class="form-control"
           formControlName="isbn" [ngClass]="{ 'is-invalid': submitted && f.isbn.errors }">
         <div *ngIf="submitted && f.isbn.errors" class="invalid-feedback">
           <div *ngIf="f.isbn.errors.required">ISBN es obligatorio</div>
@@ -24,6 +24,6 @@
       </div>
     </div>
 
-    <button [disabled]="!prestamoForm.valid" type="submit" class="btn btn-primary">Prestar</button>
+    <button id="prestar" type="submit" class="btn btn-primary">Prestar</button>
   </form>
 </div>

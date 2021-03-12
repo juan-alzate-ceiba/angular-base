@@ -32,6 +32,6 @@ exports.config = {
     jasmine.getEnv().addReporter(new HtmlReporter({
       baseDirectory: 'tmp/screenshots'
    }).getJasmine2Reporter());
-    
+
   }
 };

@@ -5,9 +5,7 @@ import { HttpService } from '@core/services/http.service';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PrestamosService {
 
   constructor(protected http: HttpService) { }

@@ -1,13 +1,16 @@
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorHandler, Injectable } from '@angular/core';
+import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { HTTP_ERRORES_CODIGO, HTTP_SUCCESS_COD } from './http-codigo-error';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ManejadorError implements ErrorHandler {
-  constructor(private mensajeToastService: ToastrService) {}
+  mensajeToastService;
+  constructor(private injector: Injector) {}
 
   handleError(error: string | Error): void {
+    this.mensajeToastService = this.injector.get(ToastrService);
     let mensajeMostrar = this.mensajePorDefecto(error);
     this.mostrarMensaje(mensajeMostrar);
   }
@@ -36,7 +39,14 @@ export class ManejadorError implements ErrorHandler {
 
   private mostrarMensaje(mensaje): void {
     this.mensajeToastService.error(mensaje);
-
+    const respuesta = {
+      fecha: new Date().toLocaleString(),
+      path: window.location.href,
+      mensaje,
+    };
+    if (!environment.production) {
+      window.console.error('Error inesperado:\n', respuesta);
+    }
   }
 
   public obtenerErrorHttpCode(httpCode: number): string {

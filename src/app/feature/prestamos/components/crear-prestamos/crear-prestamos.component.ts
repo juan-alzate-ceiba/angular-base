@@ -30,7 +30,7 @@ export class CrearPrestamosComponent implements OnInit {
 
   get f() { return this.prestamoForm.controls; }
 
-  async prestar() {
+  prestar() {
     this.submitted = true;
     if (!this.prestamoForm.valid) {
       return;

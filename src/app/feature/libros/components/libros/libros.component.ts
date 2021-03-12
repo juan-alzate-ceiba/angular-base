@@ -45,7 +45,7 @@ export class LibrosComponent implements OnInit {
       return;
     }
 
-    this.librosService.obtenerLibro(libro.isbn)
+    return this.librosService.obtenerLibro(libro.isbn)
     .subscribe( libroPrestado => {
       this.libro = libroPrestado;
 

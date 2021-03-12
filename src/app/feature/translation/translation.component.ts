@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./translation.component.css']
 })
 export class TranslationComponent implements OnInit {
-  selectedLanguage: string = 'es';
+  selectedLanguage = 'es';
   localTranslate = null;
 
   constructor(public translate: TranslateService) {

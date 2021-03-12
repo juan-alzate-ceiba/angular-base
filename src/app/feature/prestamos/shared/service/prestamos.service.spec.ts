@@ -40,8 +40,8 @@ describe('PrestamosService', () => {
   });
 
   it('deberia obtener prestamo', () => {
-    const dummyLibro = new Libro('A65478Q', 'La guerra de los cielos', 1998)
-    const dummyPrestamo = new Prestamo('03/03/2021', dummyLibro, '18/03/2021', 'Felipe')
+    const dummyLibro = new Libro('A65478Q', 'La guerra de los cielos', 1998);
+    const dummyPrestamo = new Prestamo('03/03/2021', dummyLibro, '18/03/2021', 'Felipe');
     service.obtenerPrestamo(ISBN).subscribe((respuesta) => {
       expect(respuesta).toEqual(dummyPrestamo);
     });
@@ -49,4 +49,5 @@ describe('PrestamosService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(dummyPrestamo);
   });
+
 });

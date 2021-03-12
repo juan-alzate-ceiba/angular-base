@@ -27,9 +27,9 @@ export function httpLoaderFactory(httpClient: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
-	    ,TranslationComponent
-	    ,InternacionalizacionComponent
+    HomeComponent,
+    TranslationComponent,
+    InternacionalizacionComponent
   ],
   imports: [
     BrowserModule,

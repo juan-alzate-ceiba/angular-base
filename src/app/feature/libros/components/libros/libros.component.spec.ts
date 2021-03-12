@@ -39,12 +39,6 @@ describe('LibrosComponent', () => {
     });
   });
 
-  // beforeEach(() => {
-  //   fixture = TestBed.createComponent(LibrosComponent);
-  //   component = fixture.componentInstance;
-  //   fixture.detectChanges();
-  // });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });

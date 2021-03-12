@@ -5,12 +5,12 @@ import { HttpService } from 'src/app/core/services/http.service';
 import { PrestamosService } from './../../shared/service/prestamos.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 
 import { CrearPrestamosComponent } from './crear-prestamos.component';
 import { CommonModule } from '@angular/common';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 
 describe('CrearPrestamosComponent', () => {
@@ -33,7 +33,12 @@ describe('CrearPrestamosComponent', () => {
       ],
       providers: [PrestamosService, HttpService]
     })
-    .compileComponents();
+    .compileComponents()
+    .then(() => {
+      fixture = TestBed.createComponent(CrearPrestamosComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    });
   });
 
   beforeEach(() => {
@@ -58,23 +63,23 @@ describe('CrearPrestamosComponent', () => {
     expect(component.prestamoForm.valid).toBeFalsy();
   });
 
-  it('llamar metodo prestar cuando da click en el boton', () => {
+  it('llamar metodo prestar cuando da click en el boton', fakeAsync(() => {
+    // let comp = jasmine.createSpyObj('component', ['prestar']);
     spyOn(component, 'prestar');
 
     let button = fixture.debugElement.nativeElement.querySelector('button');
     button.click();
-    fixture.whenStable().then(() => {
-      expect(component.prestar).toHaveBeenCalled;
-    });
+    flush();
 
-  });
+    expect(component.prestar).toHaveBeenCalled;
 
-  it('si libro está prestado, no crear nuevo prestamo', fakeAsync (() => {
+  }) );
+
+  it('si libro está prestado, no crear nuevo prestamo', (done) => {
     const dummyLibro = new Libro(ISBN, 'La guerra de los cielos', 1998);
     const dummyPrestamo = new Prestamo('03/03/2021', dummyLibro, '18/03/2021', 'Felipe');
 
     let service = jasmine.createSpyObj('PrestamosService', ["obtenerPrestamo", "prestar"]);
-    // let spyCrearComponent = jasmine.createSpyObj('component', ['prestar']);
 
     setTimeout(() => {
 
@@ -82,14 +87,13 @@ describe('CrearPrestamosComponent', () => {
         of(dummyPrestamo)
         );
 
-      // expect(spyCrearComponent.prestar).toHaveBeenCalled;
-      expect(service.obtenerPrestamo).toHaveBeenCalled;
+      expect(service.obtenerPrestamo).toHaveBeenCalledTimes(1);
       expect(service.prestar).toHaveBeenCalledTimes(0);
     }, 1000);
-    tick(1000); // solo se llama dentro de fakeAsync zone
-  }) );
+    done();
+  } );
 
-  it('si libro no está prestado, crear nuevo prestamo', fakeAsync (() => {
+  it('si libro no está prestado, crear nuevo prestamo', (done) => {
     let service = jasmine.createSpyObj('PrestamosService', ["obtenerPrestamo", "prestar"]);
 
     setTimeout(() => {
@@ -97,11 +101,19 @@ describe('CrearPrestamosComponent', () => {
         of(null)
         );
 
-      expect(service.obtenerPrestamo).toHaveBeenCalled;
-      expect(service.prestar).toHaveBeenCalled;
-    }, 1000);
+        expect(service.obtenerPrestamo).toHaveBeenCalledTimes(1);
+        expect(service.prestar).toHaveBeenCalledTimes(1);
+      }, 1000);
+      done();
+  });
 
-    tick(1000); // solo se llama dentro de fakeAsync zone
+  it('debería retornar error si se quiere prestar un libro que está prestado', () =>{
 
-  }) );
+    const prestamosService = fixture.debugElement.injector.get(PrestamosService);
+    spyOn(prestamosService, 'obtenerPrestamo')
+    .and.returnValue(throwError({status: 404}));
+
+    expect(prestamosService.obtenerPrestamo).toBeTruthy();
+
+  })
 });

@@ -10,7 +10,8 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Angular Seed');
+    expect(page.getTitleText()).toEqual('Bienvenido a Bibliotecario');
+    browser.sleep(2000);
   });
 
   afterEach(async () => {
