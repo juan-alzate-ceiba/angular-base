@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CrearPrestamosComponent } from './crear-prestamos.component';
 import { CommonModule } from '@angular/common';
 import { of, throwError } from 'rxjs';
+import { PrestamosComponent } from '../prestamos/prestamos.component';
 
 
 describe('CrearPrestamosComponent', () => {
@@ -22,14 +23,15 @@ describe('CrearPrestamosComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CrearPrestamosComponent ],
+      declarations: [ CrearPrestamosComponent, PrestamosComponent ],
       imports: [
         CommonModule,
         RouterTestingModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+
       ],
       providers: [PrestamosService, HttpService]
     })
@@ -64,14 +66,14 @@ describe('CrearPrestamosComponent', () => {
   });
 
   it('llamar metodo prestar cuando da click en el boton', fakeAsync(() => {
-    // let comp = jasmine.createSpyObj('component', ['prestar']);
+    fixture.detectChanges();
     spyOn(component, 'prestar');
 
     let button = fixture.debugElement.nativeElement.querySelector('button');
     button.click();
     flush();
 
-    expect(component.prestar).toHaveBeenCalled;
+    expect(component.prestar).toHaveBeenCalledTimes(1);
 
   }) );
 
@@ -100,9 +102,9 @@ describe('CrearPrestamosComponent', () => {
       service.obtenerPrestamo.and.returnValue(
         of(null)
         );
-
         expect(service.obtenerPrestamo).toHaveBeenCalledTimes(1);
         expect(service.prestar).toHaveBeenCalledTimes(1);
+
       }, 1000);
       done();
   });
@@ -115,5 +117,5 @@ describe('CrearPrestamosComponent', () => {
 
     expect(prestamosService.obtenerPrestamo).toBeTruthy();
 
-  })
+  });
 });

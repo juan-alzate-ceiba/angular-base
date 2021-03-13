@@ -1,6 +1,10 @@
 .cuerpo {
+  background-color: #e8e8e899;
+  border-radius: 10px;
+  margin: 5% auto;
   padding: 10em 30px;
   text-align: center;
+  width: 80%;
 }
 h1 {
 color:blue;

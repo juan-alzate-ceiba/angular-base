@@ -1,7 +1,13 @@
 .container {
-  padding-top: 50px;
+  padding-top: 20px;
 }
 .container h1{
   padding-bottom: 3rem !important;
 }
-
+.contentPage {
+  background-color: #e8e8e899;
+  border-radius: 10px;
+  margin: 5% auto;
+  padding: 2em 30px;
+  width: 65%;
+}

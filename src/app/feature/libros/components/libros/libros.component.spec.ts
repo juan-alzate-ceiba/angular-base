@@ -1,3 +1,4 @@
+import { of } from 'rxjs';
 import { ToastrModule } from 'ngx-toastr';
 import { Libro } from './../../../../shared/models/libro';
 import { HttpClientModule } from '@angular/common/http';
@@ -6,7 +7,7 @@ import { LibrosService } from './../../shared/services/libros.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, flush } from '@angular/core/testing';
 
 import { LibrosComponent } from './libros.component';
 
@@ -59,16 +60,6 @@ describe('LibrosComponent', () => {
     expect(component.libroForm.valid).toBeFalsy();
   });
 
-  // it('no se debe crear libro si el año es mayor que el año actual',  () => {
-  //   component.libroForm.controls.isbn.setValue(ISBN);
-  //   component.libroForm.controls.titulo.setValue(TITULO);
-  //   component.libroForm.controls.anio.setValue(19985);
-
-  //   let service = jasmine.createSpyObj('LibrosService', ['crear']);
-
-  //   expect(service.crear).toHaveBeenCalledTimes(0);
-  // });
-
   it('no se debe crear libro si existe un libro con el mismo cod ISBN', fakeAsync (() => {
     const dummyLibro = new Libro(ISBN, TITULO, ANIO);
 
@@ -84,4 +75,48 @@ describe('LibrosComponent', () => {
 
     expect(service.crear).toHaveBeenCalledTimes(0);
   }) );
+
+  it('llamar metodo crear cuando da click en el boton', fakeAsync(() => {
+    fixture.detectChanges();
+    spyOn(component, 'crear');
+
+    let button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    flush();
+
+    expect(component.crear).toHaveBeenCalledTimes(1);
+
+  }) );
+
+  it('si libro está creado, no crear nuevo libro', (done) => {
+    const dummyLibro = new Libro(ISBN, 'La guerra de los cielos', 1998);
+
+    let service = jasmine.createSpyObj('LibrosService', ["obtenerLibro", "crear"]);
+
+    setTimeout(() => {
+
+      service.obtenerPrestamo.and.returnValue(
+        of(dummyLibro)
+        );
+
+      expect(service.obtenerLibro).toHaveBeenCalledTimes(1);
+      expect(service.crear).toHaveBeenCalledTimes(0);
+    }, 1000);
+    done();
+  } );
+
+  it('si libro no está creado, crear nuevo libro', (done) => {
+    let service = jasmine.createSpyObj('LibrosService', ["obtenerLibro", "crear"]);
+
+    setTimeout(() => {
+
+      service.obtenerPrestamo.and.returnValue(
+        of(null)
+        );
+
+      expect(service.obtenerLibro).toHaveBeenCalledTimes(1);
+      expect(service.crear).toHaveBeenCalledTimes(1);
+    }, 1000);
+    done();
+  } );
 });
