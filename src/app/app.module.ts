@@ -38,8 +38,8 @@ export function httpLoaderFactory(httpClient: HttpClient) {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    CoreModule
-    ,TranslateModule.forRoot({
+    CoreModule,
+    TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader ,
         useFactory: httpLoaderFactory,

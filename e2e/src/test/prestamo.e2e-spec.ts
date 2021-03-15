@@ -1,29 +1,38 @@
-import { NavbarPage } from './../page/navbar/navbar.po';
+// import { NavbarPage } from './../page/navbar/navbar.po';
 import { PrestamoPage } from './../page/prestamo/prestamo.po';
-import { AppPage } from './../app.po';
+// import { browser } from 'protractor';
+
+const ISBN = 'A354874R';
+const NOMBRE_PRESTADOR = 'Felipe Alzate';
+
 describe('workspace-project Prestamo', () => {
-  let page: AppPage;
-  let navBar: NavbarPage;
+  // let navBar: NavbarPage;
   let prestamo: PrestamoPage;
 
   beforeEach(() => {
-    page = new AppPage();
-    navBar = new NavbarPage();
+    // navBar = new NavbarPage();
     prestamo = new PrestamoPage();
   });
 
-  it('Debería crear un prestamo', () => {
-    const ISBN = 'A354874R';
-    const NOMBRE_PRESTADOR = 'Felipe Alzate';
+  it('Debería mostrar mensajes de requerido', () => {
 
-    page.navigateTo();
-    navBar.clickBotonPrestamos();
+    // browser.get('/#/prestamos');
+    // navBar.clickLinkPrestamos();
+
+    prestamo.setIsbn('');
+    prestamo.setNombre(NOMBRE_PRESTADOR);
+    prestamo.clickBotonPrestar().then(() => {
+      const mensaje = prestamo.getMensajeErrorRequired();
+      expect(mensaje).toEqual('ISBN es obligatorio');
+    });
 
     prestamo.setIsbn(ISBN);
-    prestamo.setNombre(NOMBRE_PRESTADOR);
-    prestamo.clickBotonPrestar();
+    prestamo.setNombre('');
+    prestamo.clickBotonPrestar().then(() => {
+      const mensaje = prestamo.getMensajeErrorRequired();
+      expect(mensaje).toEqual('Nombre es obligatorio');
+    });
+  });
 
 
-
-  })
 });

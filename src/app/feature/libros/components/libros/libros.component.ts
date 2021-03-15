@@ -3,6 +3,7 @@ import { LibrosService } from './../../shared/services/libros.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Libro } from '@shared/models/libro';
+import { take } from 'rxjs/operators';
 
 const LONGITUD_MAXIMA_PERMITIDA = 4;
 
@@ -37,20 +38,20 @@ export class LibrosComponent implements OnInit {
 
     const libro = this.libroForm.value;
 
-    let fechaActual = new Date();
-    let fechaMinima = fechaActual.getFullYear() - (fechaActual.getFullYear() - 1);
+    const fechaActual = new Date();
+    const fechaMinima = fechaActual.getFullYear() - (fechaActual.getFullYear() - 1);
     if (libro.anio > fechaActual.getFullYear() || libro.anio < fechaMinima) {
       this.submitted = false;
-      this.mensajeToastService.warning('Ingrese un año entre 1 y el año actual.');
-      return;
+      this.mensajeToastService.success('Ingrese un año entre 1 y el año actual.');
+      return null;
     }
 
-    return this.librosService.obtenerLibro(libro.isbn)
+    this.librosService.obtenerLibro(libro.isbn).pipe(take(1))
     .subscribe( libroPrestado => {
       this.libro = libroPrestado;
 
       if (!libroPrestado) {
-        return this.librosService.crear(libro)
+        this.librosService.crear(libro)
           .subscribe( data => {
             this.submitted = false;
             this.libro = data;
@@ -65,9 +66,9 @@ export class LibrosComponent implements OnInit {
 
   private construirFormularioLibro() {
     this.libroForm = this.formBuilder.group({
-      'isbn': ['', Validators.required],
-      'titulo': ['', Validators.required],
-      'anio': ['', [Validators.required, Validators.maxLength(LONGITUD_MAXIMA_PERMITIDA)]]
+      isbn: ['', Validators.required],
+      titulo: ['', Validators.required],
+      anio: ['', [Validators.required, Validators.maxLength(LONGITUD_MAXIMA_PERMITIDA)]]
     });
   }
 

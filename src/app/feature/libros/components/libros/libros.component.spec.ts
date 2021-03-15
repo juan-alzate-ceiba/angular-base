@@ -1,19 +1,22 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { ToastrModule } from 'ngx-toastr';
 import { Libro } from './../../../../shared/models/libro';
-import { HttpClientModule } from '@angular/common/http';
 import { HttpService } from 'src/app/core/services/http.service';
 import { LibrosService } from './../../shared/services/libros.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, fakeAsync, TestBed, tick, flush } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, flush } from '@angular/core/testing';
 
 import { LibrosComponent } from './libros.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('LibrosComponent', () => {
   let component: LibrosComponent;
   let fixture: ComponentFixture<LibrosComponent>;
+  let service: LibrosService;
 
   const ISBN = 'A874478A';
   const TITULO = 'Cien años de soledad';
@@ -27,17 +30,21 @@ describe('LibrosComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
+        HttpClientTestingModule,
+        BrowserAnimationsModule,
         ToastrModule.forRoot()
       ],
-      providers: [LibrosService, HttpService]
+      providers: [LibrosService, HttpService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     })
-    .compileComponents()
-    .then(() => {
-      fixture = TestBed.createComponent(LibrosComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    });
+    .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LibrosComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    service = fixture.debugElement.injector.get(LibrosService);
   });
 
   it('should create', () => {
@@ -60,27 +67,11 @@ describe('LibrosComponent', () => {
     expect(component.libroForm.valid).toBeFalsy();
   });
 
-  it('no se debe crear libro si existe un libro con el mismo cod ISBN', fakeAsync (() => {
-    const dummyLibro = new Libro(ISBN, TITULO, ANIO);
-
-    let service = jasmine.createSpyObj('LibrosService', ['obtenerLibro', 'crear']);
-
-    setTimeout(() => {
-      service.obtenerLibro.and.returnValue(dummyLibro);
-
-      expect(service.obtenerLibro).toHaveBeenCalled;
-      expect(service.crear).toHaveBeenCalledTimes(0);
-    }, 1000);
-    tick(1000);
-
-    expect(service.crear).toHaveBeenCalledTimes(0);
-  }) );
-
   it('llamar metodo crear cuando da click en el boton', fakeAsync(() => {
     fixture.detectChanges();
     spyOn(component, 'crear');
 
-    let button = fixture.debugElement.nativeElement.querySelector('button');
+    const button = fixture.debugElement.nativeElement.querySelector('button');
     button.click();
     flush();
 
@@ -88,35 +79,73 @@ describe('LibrosComponent', () => {
 
   }) );
 
-  it('si libro está creado, no crear nuevo libro', (done) => {
-    const dummyLibro = new Libro(ISBN, 'La guerra de los cielos', 1998);
+  it('no se debe crear libro si existe un libro con el mismo cod ISBN', fakeAsync(() => {
+    const dummyLibro = new Libro(ISBN, TITULO, ANIO);
 
-    let service = jasmine.createSpyObj('LibrosService', ["obtenerLibro", "crear"]);
+    // lleno el formulario para crear libro
+    component.libroForm.controls.isbn.setValue(ISBN);
+    component.libroForm.controls.titulo.setValue(TITULO);
+    component.libroForm.controls.anio.setValue(ANIO);
 
-    setTimeout(() => {
+    const compiled = fixture.debugElement.nativeElement;
+    const anio = compiled.querySelector('input[id="anio"]');
+    const fechaActual = new Date();
 
-      service.obtenerPrestamo.and.returnValue(
-        of(dummyLibro)
-        );
 
-      expect(service.obtenerLibro).toHaveBeenCalledTimes(1);
-      expect(service.crear).toHaveBeenCalledTimes(0);
-    }, 1000);
-    done();
-  } );
+    // se crean espias para el servicio
+    const spyObtenerLibro = spyOn(service, 'obtenerLibro').and.returnValue(of(dummyLibro));
+    const spyCrear = spyOn(service, 'crear').and.returnValue(of(null));
 
-  it('si libro no está creado, crear nuevo libro', (done) => {
-    let service = jasmine.createSpyObj('LibrosService', ["obtenerLibro", "crear"]);
+    component.crear();
+    expect(component.libroForm.valid).toBeTruthy();
+    expect(anio.value).toBeLessThanOrEqual(fechaActual.getFullYear());
+    expect(spyObtenerLibro).toHaveBeenCalledTimes(1);
+    expect(spyCrear).toHaveBeenCalledTimes(0);
+    flush();
+  }) );
 
-    setTimeout(() => {
+  it('debe crear libro si no existe un libro con el mismo cod ISBN', fakeAsync(() => {
 
-      service.obtenerPrestamo.and.returnValue(
-        of(null)
-        );
+    // lleno el formulario para crear libro
+    component.libroForm.controls.isbn.setValue(ISBN);
+    component.libroForm.controls.titulo.setValue(TITULO);
+    component.libroForm.controls.anio.setValue(ANIO);
 
-      expect(service.obtenerLibro).toHaveBeenCalledTimes(1);
-      expect(service.crear).toHaveBeenCalledTimes(1);
-    }, 1000);
-    done();
-  } );
+    const compiled = fixture.debugElement.nativeElement;
+    const anio = compiled.querySelector('input[id="anio"]');
+
+    expect(component.libroForm.valid).toBeTruthy();
+
+    const fechaActual = new Date();
+
+    // se crean espias para el servicio
+    const spyObtenerLibro = spyOn(service, 'obtenerLibro').and.returnValue(of(null));
+    const spyCrear = spyOn(service, 'crear').and.returnValue(of(null));
+
+    component.crear();
+    expect(anio.value).toBeLessThanOrEqual(fechaActual.getFullYear());
+    expect(spyObtenerLibro).toHaveBeenCalledTimes(1);
+    expect(spyCrear).toHaveBeenCalledTimes(1);
+    flush();
+  }) );
+
+  it('si el año ingresado es mayor que el año actual mostrar mensaje de error', () => {
+    // lleno el formulario para crear libro
+    component.libroForm.controls.isbn.setValue(ISBN);
+    component.libroForm.controls.titulo.setValue(TITULO);
+    component.libroForm.controls.anio.setValue(2022);
+
+    const compiled = fixture.debugElement.nativeElement;
+    const anio = compiled.querySelector('input[id="anio"]');
+
+    expect(component.libroForm.valid).toBeTruthy();
+
+    const fechaActual = new Date();
+
+    component.crear();
+
+    expect(anio.value).toBeGreaterThan(fechaActual.getFullYear());
+    expect(component.submitted).toBe(false);
+  });
+
 });

@@ -8,11 +8,11 @@ describe('workspace-project Producto', () => {
     // let navBar: NavbarPage;
     // let producto: ProductoPage;
 
-    beforeEach(() => {
+    // beforeEach(() => {
         // page = new AppPage();
         // navBar = new NavbarPage();
         // producto = new ProductoPage();
-    });
+    // });
 
     // it('Deberia crear producto', () => {
         // const ID_PRODUCTO = '001';

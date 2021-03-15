@@ -13,8 +13,8 @@ describe('PrestamosService', () => {
   let service: PrestamosService;
 
   const ISBN = 'A874478A';
-  const NOMBRE_PRESTADOR = 'Felipe Alzate'
-  const apiEndpointPrestar = `${environment.endpoint}/prestamos`
+  const NOMBRE_PRESTADOR = 'Felipe Alzate';
+  const apiEndpointPrestar = `${environment.endpoint}/prestamos`;
 
   beforeEach(() => {
     const injector = TestBed.configureTestingModule({

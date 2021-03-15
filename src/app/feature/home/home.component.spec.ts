@@ -30,7 +30,7 @@ describe('HomeComponent', () => {
   });
 
   it('debería mostrar titulo diferente', () => {
-    component.title = 'Mi título de prueba'
+    component.title = 'Mi título de prueba';
     fixture.detectChanges();
     expect(h1.textContent).toEqual('Mi título de prueba');
   });

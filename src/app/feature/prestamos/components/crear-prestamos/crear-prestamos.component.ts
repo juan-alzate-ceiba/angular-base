@@ -3,6 +3,7 @@ import { Prestamo } from './../../../../shared/models/prestamo';
 import { PrestamosService } from './../../shared/service/prestamos.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
 
 
 @Component({
@@ -32,28 +33,19 @@ export class CrearPrestamosComponent implements OnInit {
 
   prestar() {
     this.submitted = true;
-    if (!this.prestamoForm.valid) {
+    if (this.prestamoForm.invalid) {
       return;
     }
 
     const prestamo = this.prestamoForm.value;
 
-    return this.prestamosService.obtenerPrestamo(prestamo.isbn)
-    .subscribe (data => {
-      this.prestamo = data;
-
-      if (!this.prestamo) {
-        return this.prestamosService.prestar(prestamo.isbn, prestamo.nombre.toString())
-        .subscribe (prest => {
-          this.prestamo = prest;
-          this.prestamoForm.reset();
-          this.submitted = false;
-          this.mensajeToastService.warning(`El libro con ISBN ${prestamo.isbn} ha sido prestado a ${prestamo.nombre}`);
-        });
-      } else {
-        this.mensajeToastService.warning(`El libro con ISBN ${prestamo.isbn} se encuentra en prestamo actualmente`);
-      }
-    });
+    this.prestamosService.prestar(prestamo.isbn, prestamo.nombre.toString()).pipe(take(1))
+      .subscribe (prest => {
+        this.prestamo = prest;
+        this.prestamoForm.reset();
+        this.submitted = false;
+        this.mensajeToastService.success(`El libro con ISBN ${prestamo.isbn} ha sido prestado a ${prestamo.nombre}`);
+      });
   }
 
   private construirFormulaioPrestamo() {

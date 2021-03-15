@@ -26,8 +26,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MensajeErrorCamposSubmitDirective,
     ReactiveFormsModule,
     FormsModule,
-    TrackByPipe
-        ,TranslateModule
+    TrackByPipe,
+    TranslateModule
   ]
 })
 export class SharedModule { }

@@ -15,7 +15,7 @@ describe('LibrosService', () => {
   const NOMBRE = 'La guerra de los cielos';
   const ANIO = 1998;
   const apiEndpointCrearLibro = `${environment.endpoint}/libros`;
-  const apiEndpointObtenerLibro = `${environment.endpoint}/libros`
+  const apiEndpointObtenerLibro = `${environment.endpoint}/libros`;
 
   beforeEach(() => {
     const injector = TestBed.configureTestingModule({

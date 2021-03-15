@@ -11,7 +11,7 @@ export class ManejadorError implements ErrorHandler {
 
   handleError(error: string | Error): void {
     this.mensajeToastService = this.injector.get(ToastrService);
-    let mensajeMostrar = this.mensajePorDefecto(error);
+    const mensajeMostrar = this.mensajePorDefecto(error);
     this.mostrarMensaje(mensajeMostrar);
   }
 
@@ -21,7 +21,7 @@ export class ManejadorError implements ErrorHandler {
         return HTTP_ERRORES_CODIGO.NO_HAY_INTERNET;
       }
       if (error.hasOwnProperty('status') && error.error.hasOwnProperty('mensaje')) {
-        let mensajeError = this.obtenerErrorHttpCode(error.status);
+        const mensajeError = this.obtenerErrorHttpCode(error.status);
         let mensaje = '';
         switch (mensajeError) {
           case HTTP_ERRORES_CODIGO['400']:

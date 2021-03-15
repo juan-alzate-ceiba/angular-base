@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   title = 'Bienvenido a Bibliotecario';
-  text = 'Programa para la gestión de prestamos de libros.'
+  text = 'Programa para la gestión de prestamos de libros.';
 
   constructor() { }
 
