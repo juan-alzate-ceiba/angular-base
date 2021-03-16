@@ -1,3 +1,4 @@
+import { JwtService } from './jwtService';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -9,12 +10,13 @@ export interface Options {
 @Injectable()
 export class HttpService {
 
-  constructor(protected http: HttpClient) { }
+  constructor(protected http: HttpClient, protected jwtService: JwtService) { }
 
   public createDefaultOptions(): Options {
     return {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.jwtService.getToken()}`
        })
     };
   }
@@ -56,6 +58,12 @@ export class HttpService {
     const ropts = this.createOptions(opts);
 
     return this.http.post<R>(serviceUrl, JSON.stringify(body), ropts);
+  }
+
+  public post(serviceUrl: string, body: Object = {}, opts?: Options): Observable<any> {
+    const ropts = this.createOptions(opts);
+
+    return this.http.post(serviceUrl, JSON.stringify(body), ropts);
   }
 
   public doDelete<R>(serviceUrl: string, opts?: Options): Observable<R> {

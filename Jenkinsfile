@@ -16,24 +16,24 @@ pipeline {
       steps{
         echo "------------>Checkout<------------"
         checkout([
-        $class: 'GitSCM',
-        branches: [[name: '*/master']],
-        doGenerateSubmoduleConfigurations: false,
-        extensions: [],
-        gitTool: 'Default',
-        submoduleCfg: [],
-        userRemoteConfigs: [[
-        credentialsId: 'GitHub_juan-alzate-ceiba',
-        url:'https://github.com/juan-alzate-ceiba/angular-base.git'
-        ]]
-      ])
+          $class: 'GitSCM',
+          branches: [[name: '*/master']],
+          doGenerateSubmoduleConfigurations: false,
+          extensions: [],
+          gitTool: 'Default',
+          submoduleCfg: [],
+          userRemoteConfigs: [[
+          credentialsId: 'GitHub_juan-alzate-ceiba',
+          url:'https://github.com/juan-alzate-ceiba/angular-base.git'
+          ]]
+        ])
 
+      }
     }
-  }
 
     stage('install & build') {
       steps{
-        echo "------------>Unit Tests<------------"
+        echo "------------>install and build<------------"
         sh 'npm i'
         // sh 'npm run build'
       }

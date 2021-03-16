@@ -2,21 +2,23 @@
   border: 0 solid #e1e1e1;
   border-bottom-width: 1px;
   display: block;
-  height: 48px;
+  height: 60px;
   padding: 0 16px;
 }
-
 nav a {
   color: #8f8f8f;
-  font-size: 14px;
+  cursor: pointer;
+  font-size: 20px;
   font-weight: 500;
   line-height: 48px;
   margin-right: 20px;
+  margin-top: 0.5em;
   text-decoration: none;
   vertical-align: middle;
-  cursor: pointer;
 }
-
 nav a.router-link-active {
   color: #106cc8;
+}
+.logout {
+  margin-left: 30em;
 }

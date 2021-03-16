@@ -1,7 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-// import { Prestamo } from './../../../../shared/models/prestamo';
-// import { Libro } from './../../../../shared/models/libro';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpService } from 'src/app/core/services/http.service';
 import { PrestamosService } from './../../shared/service/prestamos.service';
@@ -86,8 +84,6 @@ describe('CrearPrestamosComponent', () => {
   });
 
   it('deberia realizar un nuevo prestamo', fakeAsync(() => {
-    // const dummyLibro = new Libro(ISBN, 'La guerra de los cielos', 1998);
-    // const dummyPrestamo = new Prestamo('03/03/2021', dummyLibro, '18/03/2021', 'Felipe');
 
     component.prestamoForm.controls.isbn.setValue(ISBN);
     component.prestamoForm.controls.nombre.setValue(NOMBRE_PRESTADOR);

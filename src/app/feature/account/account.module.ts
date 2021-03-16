@@ -1,3 +1,4 @@
+import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -6,10 +7,13 @@ import { AccountComponent } from './components/account/account.component';
 
 
 @NgModule({
-  declarations: [AccountComponent],
+  declarations: [
+    AccountComponent
+  ],
   imports: [
     CommonModule,
-    AccountRoutingModule
+    AccountRoutingModule,
+    SharedModule
   ]
 })
 export class AccountModule { }
