@@ -35,7 +35,7 @@ pipeline {
       steps{
         echo "------------>install and build<------------"
         sh 'npm i'
-        // sh 'npm run build'
+        sh 'npm run build'
       }
     }
 
