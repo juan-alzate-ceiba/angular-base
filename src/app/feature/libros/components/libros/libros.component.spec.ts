@@ -91,7 +91,6 @@ describe('LibrosComponent', () => {
     const anio = compiled.querySelector('input[id="anio"]');
     const fechaActual = new Date();
 
-
     // se crean espias para el servicio
     const spyObtenerLibro = spyOn(service, 'obtenerLibro').and.returnValue(of(dummyLibro));
     const spyCrear = spyOn(service, 'crear').and.returnValue(of(null));

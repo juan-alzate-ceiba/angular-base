@@ -10,8 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountComponent implements OnInit {
 
-  isSubmitting = false;
-  isInvalid = false;
+
   submitted = false;
 
   authForm: FormGroup;
@@ -35,11 +34,12 @@ export class AccountComponent implements OnInit {
 
     const login = this.authForm.value;
 
+    // tslint:disable-next-line: deprecation
     this.userSessionService.login(login).subscribe(
       data => {
-        this.submitted = false;
-        console.log(data);
-        this.router.navigateByUrl('home');
+        if (data.token) {
+          this.router.navigateByUrl('home');
+        }
       }
     );
   }

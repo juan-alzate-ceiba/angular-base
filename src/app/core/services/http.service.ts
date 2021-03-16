@@ -60,7 +60,7 @@ export class HttpService {
     return this.http.post<R>(serviceUrl, JSON.stringify(body), ropts);
   }
 
-  public post(serviceUrl: string, body: Object = {}, opts?: Options): Observable<any> {
+  public post(serviceUrl: string, body: object = {}, opts?: Options): Observable<any> {
     const ropts = this.createOptions(opts);
 
     return this.http.post(serviceUrl, JSON.stringify(body), ropts);

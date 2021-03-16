@@ -1,8 +1,8 @@
+import { HttpService } from 'src/app/core/services/http.service';
 import { JwtService } from './../../../../core/services/jwtService';
 import { UserSession } from './../../../../core/modelo/user-session';
 import { User } from './../../../../core/modelo/user';
 import { map } from 'rxjs/operators';
-import { HttpService } from './../../../../core/services/http.service';
 import { Observable, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
@@ -40,6 +40,14 @@ export class UserSessionService {
 
   logout() {
     this.jwtService.destroyToken();
+  }
+
+  isLogged(): boolean {
+    if (this.jwtService.getToken()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

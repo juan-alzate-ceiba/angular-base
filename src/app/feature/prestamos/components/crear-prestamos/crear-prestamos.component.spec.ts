@@ -11,6 +11,7 @@ import { CrearPrestamosComponent } from './crear-prestamos.component';
 import { CommonModule } from '@angular/common';
 import { throwError, of } from 'rxjs';
 import { PrestamosComponent } from '../prestamos/prestamos.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 
 describe('CrearPrestamosComponent', () => {
@@ -34,7 +35,8 @@ describe('CrearPrestamosComponent', () => {
         ToastrModule.forRoot(),
 
       ],
-      providers: [PrestamosService, HttpService]
+      providers: [PrestamosService, HttpService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

@@ -6,6 +6,7 @@ import { TestBed } from '@angular/core/testing';
 import { LibrosService } from './libros.service';
 import { Libro } from '@shared/models/libro';
 import { HttpResponse } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('LibrosService', () => {
   let httpMock: HttpTestingController;
@@ -20,10 +21,15 @@ describe('LibrosService', () => {
   beforeEach(() => {
     const injector = TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [LibrosService, HttpService]
+      providers: [LibrosService, HttpService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     });
     httpMock = injector.inject(HttpTestingController);
     service = TestBed.inject(LibrosService);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it('should be created', () => {
@@ -33,7 +39,7 @@ describe('LibrosService', () => {
   it('deberia crear un libro', (done) => {
     const dummyLibro = new Libro(ISBN, NOMBRE, ANIO);
     service.crear(dummyLibro).subscribe((respuesta) => {
-      expect(respuesta).toEqual(true);
+      expect(respuesta).toBe(true);
       done();
     });
     const req = httpMock.expectOne(apiEndpointCrearLibro);
@@ -43,7 +49,7 @@ describe('LibrosService', () => {
 
   it('comprobar si un libro está creado', (done) => {
     const dummyLibro = new Libro(ISBN, NOMBRE, ANIO);
-    service.obtenerLibro(ISBN).subscribe((respuesta) => {
+    service.obtenerLibro(ISBN).subscribe((respuesta: Libro) => {
       expect(respuesta).toEqual(dummyLibro);
       done();
     });

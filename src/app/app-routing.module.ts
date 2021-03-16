@@ -7,10 +7,13 @@ import { InternacionalizacionComponent } from './feature/internacionalizacion/in
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, canActivate: [SecurityGuard] },
-  { path: 'prestamos', loadChildren: () => import('@prestamos/prestamos.module').then(mod => mod.PrestamosModule) },
-  { path: 'libros', loadChildren: () => import('@libros/libros.module').then(m => m.LibrosModule) },
+  { path: 'prestamos',
+    loadChildren: () => import('@prestamos/prestamos.module').then(mod => mod.PrestamosModule), canActivate: [SecurityGuard] },
+  { path: 'libros',
+    loadChildren: () => import('@libros/libros.module').then(m => m.LibrosModule), canActivate: [SecurityGuard] },
   { path: 'internacionalizacion', component: InternacionalizacionComponent, canActivate: [SecurityGuard] },
-  { path: 'login', loadChildren: () => import('./feature/account/account.module').then(m => m.AccountModule) },
+  { path: 'login',
+    loadChildren: () => import('./feature/account/account.module').then(m => m.AccountModule) },
 ];
 
 @NgModule({

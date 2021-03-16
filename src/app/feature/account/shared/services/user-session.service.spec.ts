@@ -2,7 +2,8 @@ import { HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { User } from '@core/modelo/user';
-import { HttpService } from '@core/services/http.service';
+import { JwtService } from '@core/services/jwtService';
+import { HttpService } from 'src/app/core/services/http.service';
 
 import { UserSessionService } from './user-session.service';
 
@@ -15,7 +16,7 @@ describe('AccountService', () => {
   beforeEach(() => {
     const injector = TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [HttpService]
+      providers: [UserSessionService, HttpService, JwtService]
     });
     httpMock = injector.inject(HttpTestingController);
     service = TestBed.inject(UserSessionService);

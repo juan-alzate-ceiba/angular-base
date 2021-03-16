@@ -1,3 +1,4 @@
+import { UserSessionService } from 'src/app/feature/account/shared/services/user-session.service';
 import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,6 +15,7 @@ import { AccountComponent } from './components/account/account.component';
     CommonModule,
     AccountRoutingModule,
     SharedModule
-  ]
+  ],
+  providers: [UserSessionService]
 })
 export class AccountModule { }
