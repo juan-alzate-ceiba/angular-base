@@ -579,6 +579,43 @@ app.controller('ScreenshotReportController', ['$scope', '$http', 'TitleService',
         "screenShotFile": "00de00b6-0029-0090-0036-00a900a000af.png",
         "timestamp": 1615813949328,
         "duration": 157
+    },
+    {
+        "description": "should display welcome message|workspace-project App",
+        "passed": false,
+        "pending": false,
+        "os": "Windows",
+        "instanceId": 16332,
+        "browser": {
+            "name": "chrome",
+            "version": "89.0.4389.82"
+        },
+        "message": [
+            "Expected 'Login' to equal 'Bienvenido a Bibliotecario'."
+        ],
+        "trace": [
+            "Error: Failed expectation\n    at UserContext.<anonymous> (D:\\Proyectos\\ADNCeiba\\angular-base\\e2e\\src\\app.e2e-spec.ts:13:33)\n    at C:\\Users\\juan.alzate\\AppData\\Roaming\\npm\\node_modules\\protractor\\node_modules\\jasminewd2\\index.js:112:25\n    at new ManagedPromise (C:\\Users\\juan.alzate\\AppData\\Roaming\\npm\\node_modules\\protractor\\node_modules\\selenium-webdriver\\lib\\promise.js:1077:7)\n    at ControlFlow.promise (C:\\Users\\juan.alzate\\AppData\\Roaming\\npm\\node_modules\\protractor\\node_modules\\selenium-webdriver\\lib\\promise.js:2505:12)\n    at schedulerExecute (C:\\Users\\juan.alzate\\AppData\\Roaming\\npm\\node_modules\\protractor\\node_modules\\jasminewd2\\index.js:95:18)\n    at TaskQueue.execute_ (C:\\Users\\juan.alzate\\AppData\\Roaming\\npm\\node_modules\\protractor\\node_modules\\selenium-webdriver\\lib\\promise.js:3084:14)\n    at TaskQueue.executeNext_ (C:\\Users\\juan.alzate\\AppData\\Roaming\\npm\\node_modules\\protractor\\node_modules\\selenium-webdriver\\lib\\promise.js:3067:27)\n    at C:\\Users\\juan.alzate\\AppData\\Roaming\\npm\\node_modules\\protractor\\node_modules\\selenium-webdriver\\lib\\promise.js:2974:25\n    at C:\\Users\\juan.alzate\\AppData\\Roaming\\npm\\node_modules\\protractor\\node_modules\\selenium-webdriver\\lib\\promise.js:668:7"
+        ],
+        "browserLogs": [],
+        "screenShotFile": "009d0012-00d4-000d-007b-00e5000200cc.png",
+        "timestamp": 1615915554349,
+        "duration": 2978
+    },
+    {
+        "description": "Debería mostrar mensajes de requerido|workspace-project Prestamo",
+        "passed": true,
+        "pending": false,
+        "os": "Windows",
+        "instanceId": 16332,
+        "browser": {
+            "name": "chrome",
+            "version": "89.0.4389.82"
+        },
+        "message": "Passed",
+        "browserLogs": [],
+        "screenShotFile": "00ee0072-0027-00c3-0089-002b004d0070.png",
+        "timestamp": 1615915557833,
+        "duration": 161
     }
 ];
 

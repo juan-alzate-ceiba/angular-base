@@ -16,7 +16,7 @@ export class HttpService {
     return {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.jwtService.getToken()}`
+        Authorization: `Bearer ${this.jwtService.getToken()}`
        })
     };
   }
