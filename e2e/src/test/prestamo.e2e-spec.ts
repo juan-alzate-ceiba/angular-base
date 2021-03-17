@@ -1,30 +1,35 @@
-// import { NavbarPage } from './../page/navbar/navbar.po';
+import { browser } from 'protractor';
 import { PrestamoPage } from './../page/prestamo/prestamo.po';
-// import { browser } from 'protractor';
 
 const ISBN = 'A354874R';
 const NOMBRE_PRESTADOR = 'Felipe Alzate';
 
 describe('workspace-project Prestamo', () => {
-  // let navBar: NavbarPage;
   let prestamo: PrestamoPage;
 
   beforeEach(() => {
-    // navBar = new NavbarPage();
     prestamo = new PrestamoPage();
   });
 
-  it('Debería mostrar mensajes de requerido', () => {
+  afterEach(async (done) => {
+    await browser.executeScript('window.localStorage.clear();');
+    done();
+});
 
-    // browser.get('/#/prestamos');
-    // navBar.clickLinkPrestamos();
+  it('Debería mostrar mensaje ISBN obligatorio', async () => {
 
-    prestamo.setIsbn('');
-    prestamo.setNombre(NOMBRE_PRESTADOR);
+    expect(browser.getCurrentUrl()).toMatch('home');
+
+    await prestamo.setIsbn('');
+    await prestamo.setNombre(NOMBRE_PRESTADOR);
     prestamo.clickBotonPrestar().then(() => {
       const mensaje = prestamo.getMensajeErrorRequired();
       expect(mensaje).toEqual('ISBN es obligatorio');
     });
+  });
+
+  it('Muestra mensaje error Nombre obligatorio', () => {
+    expect(browser.getCurrentUrl()).toMatch('home');
 
     prestamo.setIsbn(ISBN);
     prestamo.setNombre('');
@@ -33,6 +38,4 @@ describe('workspace-project Prestamo', () => {
       expect(mensaje).toEqual('Nombre es obligatorio');
     });
   });
-
-
 });

@@ -2,7 +2,6 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { HTTP_ERRORES_CODIGO, HTTP_SUCCESS_COD } from './http-codigo-error';
-import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ManejadorError implements ErrorHandler {
@@ -20,12 +19,12 @@ export class ManejadorError implements ErrorHandler {
       if (!navigator.onLine) {
         return HTTP_ERRORES_CODIGO.NO_HAY_INTERNET;
       }
-      if (error.hasOwnProperty('status') && error.error.hasOwnProperty('mensaje')) {
+      if (error.hasOwnProperty('status') && (error.error.hasOwnProperty('mensaje') || error.hasOwnProperty('error'))) {
         const mensajeError = this.obtenerErrorHttpCode(error.status);
         let mensaje = '';
         switch (mensajeError) {
           case HTTP_ERRORES_CODIGO['400']:
-            mensaje = error.error.mensaje;
+            mensaje = error.error.mensaje ? error.error.mensaje : 'Usuario o contraseña incorrectas';
             break;
           case HTTP_SUCCESS_COD['200']:
             mensaje = mensajeError;
@@ -39,14 +38,7 @@ export class ManejadorError implements ErrorHandler {
 
   private mostrarMensaje(mensaje): void {
     this.mensajeToastService.error(mensaje);
-    const respuesta = {
-      fecha: new Date().toLocaleString(),
-      path: window.location.href,
-      mensaje,
-    };
-    if (!environment.production) {
-      window.console.error('Error inesperado:\n', respuesta);
-    }
+
   }
 
   public obtenerErrorHttpCode(httpCode: number): string {

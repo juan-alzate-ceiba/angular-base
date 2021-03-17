@@ -42,7 +42,7 @@ export class LibrosComponent implements OnInit {
     const fechaMinima = fechaActual.getFullYear() - (fechaActual.getFullYear() - 1);
     if (libro.anio > fechaActual.getFullYear() || libro.anio < fechaMinima) {
       this.submitted = false;
-      this.mensajeToastService.success('Ingrese un año entre 1 y el año actual.');
+      this.mensajeToastService.error('Ingrese un año entre 1 y el año actual.');
       return null;
     }
 

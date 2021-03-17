@@ -1,9 +1,9 @@
 import { by, element } from 'protractor';
 
 export class NavbarPage {
-    linkHome = element(by.xpath('/html/body/app-root/app-navbar/nav/a[1]'));
-    linkPrestamos = element(by.xpath('/html/body/app-root/app-navbar/nav/a[2]'));
-    linkLibros = element(by.xpath('/html/body/app-root/app-navbar/nav/a[3]'));
+    linkHome = element(by.id('home'));
+    linkPrestamos = element(by.id('prestamos'));
+    linkLibros = element(by.id('libros'));
 
     async clickLinkPrestamos() {
       await this.linkPrestamos.click();

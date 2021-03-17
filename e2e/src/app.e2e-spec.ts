@@ -8,10 +8,11 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('debería mostrar página de login', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Bienvenido a Bibliotecario');
-    browser.sleep(2000);
+
+    expect(browser.getCurrentUrl()).toMatch('/login');
+
   });
 
   afterEach(async () => {
