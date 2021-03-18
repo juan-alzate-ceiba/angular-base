@@ -8,7 +8,7 @@
         <input validar type="text" id="isbnPrestamo" name="isbn" placeholder="isbn" class="form-control"
           formControlName="isbn" [ngClass]="{ 'is-invalid': submitted && f.isbn.errors }">
         <div *ngIf="submitted && f.isbn.errors" class="invalid-feedback">
-          <div *ngIf="f.isbn.errors.required">ISBN es obligatorio</div>
+          <div *ngIf="f.isbn.errors.required" id="isbnPrestamoMensaje">ISBN es obligatorio</div>
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
         <input validar type="text" id="nombrePrestador" name="nombre" placeholder="nombre" class="form-control"
           formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }">
         <div *ngIf="submitted && f.nombre.errors" class="invalid-feedback">
-          <div *ngIf="f.nombre.errors.required">Nombre es obligatorio</div>
+          <div *ngIf="f.nombre.errors.required" id="nombrePrestamoMensaje">Nombre es obligatorio</div>
         </div>
       </div>
     </div>

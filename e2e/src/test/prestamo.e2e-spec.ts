@@ -1,3 +1,4 @@
+// import { browser } from 'protractor';
 import { browser } from 'protractor';
 import { PrestamoPage } from './../page/prestamo/prestamo.po';
 
@@ -11,30 +12,29 @@ describe('workspace-project Prestamo', () => {
     prestamo = new PrestamoPage();
   });
 
-  afterEach(async (done) => {
+  afterAll(async (done) => {
     await browser.executeScript('window.localStorage.clear();');
     done();
-});
+  });
 
-  it('Debería mostrar mensaje ISBN obligatorio', async () => {
+  it('Muestra mensaje error ISBN obligatorio', () => {
+    prestamo.navigateTo();
 
-    expect(browser.getCurrentUrl()).toMatch('home');
-
-    await prestamo.setIsbn('');
-    await prestamo.setNombre(NOMBRE_PRESTADOR);
+    prestamo.setIsbn('');
+    prestamo.setNombre(NOMBRE_PRESTADOR);
     prestamo.clickBotonPrestar().then(() => {
-      const mensaje = prestamo.getMensajeErrorRequired();
+      const mensaje = prestamo.getMensajeErrorISBNRequerido();
       expect(mensaje).toEqual('ISBN es obligatorio');
     });
   });
 
   it('Muestra mensaje error Nombre obligatorio', () => {
-    expect(browser.getCurrentUrl()).toMatch('home');
+    prestamo.navigateTo();
 
     prestamo.setIsbn(ISBN);
     prestamo.setNombre('');
     prestamo.clickBotonPrestar().then(() => {
-      const mensaje = prestamo.getMensajeErrorRequired();
+      const mensaje = prestamo.getMensajeErrorNombreRequirido();
       expect(mensaje).toEqual('Nombre es obligatorio');
     });
   });

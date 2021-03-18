@@ -5,15 +5,34 @@ import { HomeComponent } from '@home/home.component';
 import { InternacionalizacionComponent } from './feature/internacionalizacion/internacionalizacion.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent, canActivate: [SecurityGuard] },
-  { path: 'prestamos',
-    loadChildren: () => import('@prestamos/prestamos.module').then(mod => mod.PrestamosModule), canActivate: [SecurityGuard] },
-  { path: 'libros',
-    loadChildren: () => import('@libros/libros.module').then(m => m.LibrosModule), canActivate: [SecurityGuard] },
-  { path: 'internacionalizacion', component: InternacionalizacionComponent, canActivate: [SecurityGuard] },
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [ SecurityGuard ]
+  },
+  {
+    path: 'prestamos',
+    loadChildren: () => import('@prestamos/prestamos.module').then(mod => mod.PrestamosModule),
+    canActivate: [ SecurityGuard ]
+  },
+  {
+    path: 'libros',
+    loadChildren: () => import('@libros/libros.module').then(m => m.LibrosModule),
+    canActivate: [ SecurityGuard ]
+  },
+  {
+    path: 'internacionalizacion',
+    component: InternacionalizacionComponent,
+    canActivate: [ SecurityGuard ]
+  },
   { path: 'login',
-    loadChildren: () => import('./feature/account/account.module').then(m => m.AccountModule) },
+    loadChildren: () => import('./feature/account/account.module').then(m => m.AccountModule)
+  },
 ];
 
 @NgModule({

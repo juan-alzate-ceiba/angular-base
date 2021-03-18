@@ -9,7 +9,7 @@
           <input validar type="text" id="isbnLibro" name="isbn" placeholder="isbn" class="form-control"
             formControlName="isbn" [ngClass]="{ 'is-invalid': submitted && f.isbn.errors }">
           <div *ngIf="submitted && f.isbn.errors" class="invalid-feedback">
-            <div *ngIf="f.isbn.errors.required">ISBN es obligatorio</div>
+            <div *ngIf="f.isbn.errors.required" id="isbnMensajeError">ISBN es obligatorio</div>
           </div>
         </div>
       </div>
@@ -20,7 +20,7 @@
           <input validar type="text" id="tituloLibro" name="titulo" placeholder="titulo" class="form-control"
             formControlName="titulo" [ngClass]="{ 'is-invalid': submitted && f.titulo.errors }">
           <div *ngIf="submitted && f.titulo.errors" class="invalid-feedback">
-            <div *ngIf="f.titulo.errors.required">Título es obligatorio</div>
+            <div *ngIf="f.titulo.errors.required" id="tituloMensajeError">Título es obligatorio</div>
           </div>
         </div>
       </div>
@@ -31,7 +31,7 @@
           <input validar type="number" id="anio" name="anio" placeholder="anio" class="form-control"
             formControlName="anio" [ngClass]="{ 'is-invalid': submitted && f.anio.errors }">
           <div *ngIf="submitted && f.anio.errors" class="invalid-feedback">
-            <div *ngIf="f.anio.errors.required">Año es obligatorio</div>
+            <div *ngIf="f.anio.errors.required" id="anioMensajeError">Año es obligatorio</div>
           </div>
         </div>
       </div>

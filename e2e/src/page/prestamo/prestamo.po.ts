@@ -1,10 +1,15 @@
-import { element, by, By } from 'protractor';
+import { element, by, By, browser } from 'protractor';
 
 export class PrestamoPage {
-  private isbnPrestamo = element(By.css('#isbnPrestamo'));
-  private nombrePrestador = element(by.css('#nombrePrestador'));
+  private isbnPrestamo = element(By.id('isbnPrestamo'));
+  private nombrePrestador = element(by.id('nombrePrestador'));
   private prestarBtn = element(by.id('prestar'));
-  private mensajeRequerido = element(by.className('invalid-feedback'));
+  private mensajeISBNRequerido = element(by.id('isbnPrestamoMensaje'));
+  private mensajeNombreRequerido = element(by.id('nombrePrestamoMensaje'));
+
+  navigateTo() {
+    return browser.get('prestamos') as Promise<any>;
+  }
 
   async setIsbn(isbn: string) {
     await this.isbnPrestamo.sendKeys(isbn);
@@ -14,8 +19,12 @@ export class PrestamoPage {
     await this.nombrePrestador.sendKeys(nombre);
   }
 
-  async getMensajeErrorRequired() {
-    return await this.mensajeRequerido.findElement('div').getText();
+  async getMensajeErrorISBNRequerido() {
+    return this.mensajeISBNRequerido.getText();
+  }
+
+  async getMensajeErrorNombreRequirido() {
+    return this.mensajeNombreRequerido.getText();
   }
 
   async clickBotonPrestar() {

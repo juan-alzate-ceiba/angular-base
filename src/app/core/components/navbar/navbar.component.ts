@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
   @Input()
   items: MenuItem[];
 
-  token = '';
+  token: string;
 
   tokenSubscription: Subscription;
 
@@ -25,16 +25,14 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private jwtService: JwtService
     ) {
-      // tslint:disable-next-line: deprecation
-      this.tokenSubscription = this.userSessionService.tokenSubject.subscribe(
-        data => {
-          this.token = data ? data : '';
-        }
-      );
     }
 
   ngOnInit() {
-
+    this.tokenSubscription = this.userSessionService.tokenSubject.subscribe(
+      data => {
+        this.token = data ? data : '';
+      }
+    );
   }
 
   logout() {
