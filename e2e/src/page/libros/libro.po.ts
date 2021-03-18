@@ -1,4 +1,4 @@
-import { element, by, browser } from "protractor";
+import { element, by, browser } from 'protractor';
 
 export class LibroPage {
   private isbnLibro = element(by.css('[id="isbnLibro"]'));
